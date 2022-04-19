@@ -4,13 +4,7 @@ import {
   Paper,
   Container,
   Button,
-  ToggleButton,
-  ToggleButtonGroup,
-  FormGroup,
-  FormControlLabel,
-  Switch,
   Stack,
-  Checkbox,
   Typography,
   Link,
   ButtonGroup,
@@ -23,14 +17,7 @@ function App() {
     currentQuestion: 1,
     testStarted: false,
     testEnded: false,
-    generalScores: {
-      humor: 5,
-      thriller: 5,
-      romance: 5,
-      drama: 5,
-      horror: 5,
-      family: 5,
-    },
+    currentScores: [5, 5, 5, 5, 5, 5],
   });
 
   React.useEffect(() => {
@@ -54,6 +41,9 @@ function App() {
   }, []);
 
   const renderQuestion = (current_question) => {
+    console.log(
+      `rendering the next question. the current scores are ${state.currentScores}`
+    );
     const filteredQuestions = state.questions.filter((question) => {
       return parseInt(question.number) === current_question;
     });
@@ -65,14 +55,43 @@ function App() {
   };
 
   const nextQuestion = (event) => {
+    // gets the selected option object
+    const selectedOption = state.options.filter(
+      (option) => option.id === parseInt(event.target.value)
+    )[0];
+    // set a scores array with all the scores
+    const scores = [
+      selectedOption.humor_factor,
+      selectedOption.thriller_factor,
+      selectedOption.romance_factor,
+      selectedOption.drama_factor,
+      selectedOption.horror_factor,
+      selectedOption.family_factor,
+    ];
+
+    const newCurrentScores = state.currentScores.map(function(score, i) {
+      if (score + scores[i] < 0) {
+        return 0;
+      } else if (score + scores[i] > 10) {
+        return 10;
+      } else {
+        return score + scores[i];
+      }
+    });
+
     console.log(`selected the option with id ${event.target.value}`);
-    console.log(
-      `there are ${state.questions.length} questions and you just answered question number ${state.currentQuestion}`
-    );
 
     state.questions.length === state.currentQuestion
-      ? setState({ ...state, currentQuestion: 0 })
-      : setState({ ...state, currentQuestion: state.currentQuestion + 1 });
+      ? setState({
+          ...state,
+          currentQuestion: 0,
+          currentScores: newCurrentScores,
+        })
+      : setState({
+          ...state,
+          currentQuestion: state.currentQuestion + 1,
+          currentScores: newCurrentScores,
+        });
   };
 
   const renderOptions = (question_num) => {
