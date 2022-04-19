@@ -1,5 +1,7 @@
 import './App.css';
 import React from 'react';
+import ShowCard from './components/ShowCard';
+import BottomBar from './components/BottomBar';
 import {
   Paper,
   Container,
@@ -150,33 +152,9 @@ function App() {
 
     const top3banner = top3.map(function(show, i) {
       return (
-        <Paper
-          key={show.id}
-          elevation={10}
-          sx={{ backgroundColor: 'rgb(0, 30, 60)', padding: 2, width: '300px' }}
-        >
-          <Stack alignItems="center" spacing={1}>
-            <Typography variant="h4" color="white">
-              {show.title}
-            </Typography>
-
-            <img
-              src={show.img_link}
-              alt="shows cover"
-              style={{ width: '80%' }}
-            />
-            <Typography variant="subtitle1">
-              <Link
-                href={show.imdb_link}
-                underline="hover"
-                target="_blank"
-                rel="noreferrer noopener"
-              >
-                imdb score: {show.imdb_score}
-              </Link>
-            </Typography>
-          </Stack>
-        </Paper>
+        <>
+          <ShowCard show={show} />
+        </>
       );
     });
 
@@ -248,31 +226,7 @@ function App() {
           )}
           {state.testEnded ? renderRetryButton() : ''}
         </Stack>
-        <Stack
-          padding={1}
-          position="fixed"
-          left="0"
-          bottom="0"
-          width="100vw"
-          bgcolor="rgb(0, 30, 60)"
-          direction="row"
-          justifyContent="center"
-        >
-          <Typography color="white">
-            {' '}
-            built by{' '}
-            <Link
-              href="https://github.com/guitrentini96"
-              underline="hover"
-              target="_blank"
-              rel="noopener"
-              sx={{ color: 'white' }}
-            >
-              Guilherme Campara
-            </Link>{' '}
-            :)
-          </Typography>
-        </Stack>
+        <BottomBar />
       </Container>
     </>
   );
