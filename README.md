@@ -24,3 +24,5 @@ There is already a superuser created with _admin_ as the username and password
 ---
 
 ## Please feel free to check out my other projects :)
+
+![Bye bye](https://www.icegif.com/wp-content/uploads/baby-yoda-bye-bye-icegif.gif)
